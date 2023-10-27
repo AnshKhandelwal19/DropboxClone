@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, request, render_template, send_file
 import os
 
 app = Flask(__name__)
@@ -20,25 +20,22 @@ def home():
 def files():
     return render_template('files.html')
 
-@app.route("/download")
-def downloads():
-    if request.method == 'POST':
-        # Check if the post request has the file part
-        if 'file' not in request.files:
-            return redirect(request.url)
-        
-        file = request.files['file']
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    update = 'N/A'
+    if 'file' not in request.files:
+        return render_template('upload.html', update_string = 'No File Part') 
+    file = request.files['file']
+    if file.filename == '':
+        return render_template('upload.html', update_string = 'No File Selected')
+    if file:
+        file.save(file.filename)  # Save the uploaded file to the server
+        return render_template('upload.html', update_string = 'File Upload Successful')
 
-        # If the user does not select a file, the browser submits an empty part without a filename
-        if file.filename == '':
-            return redirect(request.url)
-        
-        if file and allowed_file(file.filename):
-            # Save the uploaded file to the server
-            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filename)
-            return 'File uploaded successfully'
-    return render_template('download.html')
+
+@app.route('/upload', methods=['GET'])  # Add a "GET" route for the /upload endpoint
+def show_upload_form():
+    return render_template('upload.html', update_string = '')
 
 #Run flask app
 if __name__ == "__main__":

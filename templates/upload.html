@@ -10,14 +10,15 @@
     <div class="header">
         <form action="/files" method="GET">
             <button class='head-button' type="submit">Files</button>
-            <p class = header-p>Download</p>
+            <p class = header-p>Upload</p>
         </form>
     </div>
     <div class="uploads">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" action="/upload">
             <input type="file" name="file">
             <input type="submit" value="Upload">
         </form>
     </div>
+    <h1 class="update">{{ update_string }}</h1>
 </body>
 </html>

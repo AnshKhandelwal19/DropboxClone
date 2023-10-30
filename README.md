@@ -23,6 +23,12 @@ Once you are certain your virtual environment is up and running and you are usin
 
 Use the command: `pip install -r requirements.txt`
 
+### Setting up Storage Directory
+
+Create a new folder labeled "Files" within the project folder
+
+Within this directory add new folders for every data type you want to save (png, jpeg, txt, pdf, etc)
+
 ### Running the program
 
 Use the command: `python app.py`
